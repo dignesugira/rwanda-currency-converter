@@ -5,17 +5,36 @@
 </head>
 <body>
     <h1>Exchange rates for 1 RWF</h1>
+    <form method ="get">
+        <input name = "search" placeholder="search code, ex: KES" value="{{search}}">
+        <select name="region">
+            <option value="all">All currencies</option>
+            <option value="east" {%if region =="east" %}selected{% endif %}>East Africa</option>
+
+        </select>
+        <select name="sort">
+            <option value="code">Sort by code</option>
+            <option value="rate" {% if sort =="rate" %}selected{% endif %}>Sort by rate</option>
+            </select>
+            <button tyoe="submi">Apply</button>
+    </form>
+    <p>{{ results|length }} currencies found</p>
+
+    {%if results%}
     <table border="1">
         <tr>
             <th>Currency</th>
             <th>Rate</th>
         </tr>
-        {% for code, rate in rates.items() %}
+        {% for code, rate in results%}
         <tr>
             <td>{{code}}</td>
             <td>{{rate}}</td>
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <p>No currency match "{{search}}". Try a code like USD OR UGX</p>
+    {% endif %}
 </body>
 </html>
