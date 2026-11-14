@@ -15,8 +15,14 @@ def home():
     search = request.args.get("search", "").upper()
     region = request.args.get("region", "all")
     sort = request.args.get("sort", "code")
+    try:
+        data = requests.get(f"https://v6.exchangerate-api.com/v6/{api_key}/latest/RWF", timeout=10).json()
+    except requests.RequestException:
+        return render_template("index.html", error="couldn't reach the exchange rate service. try again later")
 
-    data = requests.get(f"https://v6.exchangerate-api.com/v6/34a13389ba4e16298eae5081/latest/USD", timeout=10).json()
+    if data.get("result") != "success":
+        return render_template("index.html", error="The exchange rate service returned an error:" +str(data.get("error-type")))
+
     rates = data["conversion_rates"]
 
     results = []
