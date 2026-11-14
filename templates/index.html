@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rwanda Currency Converter</title>
+</head>
+<body>
+    <h1>Exchange rates for 1 RWF</h1>
+    <table border="1">
+        <tr>
+            <th>Currency</th>
+            <th>Rate</th>
+        </tr>
+        {% for code, rate in rates.items() %}
+        <tr>
+            <td>{{code}}</td>
+            <td>{{rate}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
