@@ -4,47 +4,59 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rwanda Currency Converter</title>
-    <link rel="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 </head>
 <body>
-    <h1>Exchange rates for 1 RWF</h1>
-    {% if error %}
-    <p style="color: red;">{{error}}</p>
-    {% else %}
-    <form method ="get">
-        <input name = "search" placeholder="search code, ex: KES" value="{{search}}">
-        <select name="region">
-            <option value="all">All currencies</option>
-            <option value="east" {%if region =="east" %}selected{% endif %}>East Africa</option>
+    <div class="stripe"></div>
+        <main>
+            <h1>Exchange rates for 1 RWF</h1>
+            <p class="intro">See what one Rwandan franc is worth in 160+ currencies. Search, filter and sort</p>
+            {% if error %}
+            <p class="error">{{ error}}</p>
+            {% else %}
 
-        </select>
-        <select name="sort">
-            <option value="code">Sort by code</option>
-            <option value="rate" {% if sort =="rate" %}selected{% endif %}>Sort by rate</option>
-            </select>
-            <button type="submit">Apply</button>
-            
-    </form>
- 
-    <p>{{ results|length }} currencies found</p>
+            {% if warning %}
+            <p class="warning">{{ warning }}</p>
+            {% endif %}
 
-    {%if results%}
-    <table border="1">
-        <tr>
-            <th>Currency</th>
-            <th>Rate</th>
-        </tr>
-        {% for code, rate in results%}
-        <tr>
-            <td>{{code}}</td>
-            <td>{{rate}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>No currency match "{{search}}". Try a code like USD OR UGX</p>
-    {% endif %}
-    {% endif %}
-</body>
+            <form method="get">
+                <input name="search" placeholder="Search code, e.g. KESH" value="{{ search}}">
+                <select name="region">
+                    <option value="all">All currencies</option>
+                    <option value="east" {% if region == "east" %}selected{% endif %}>East Africa only</option>
+                    </select>
+                <select name="sort">
+                    <option value="code">Sort by code</option>
+                    <option value="rate" {% if sort == "rate" %}selected{% endif %}>sort by rate</option>    
+                </select>
+                <button type="submit">Apply</button>
+            </form>
+
+            <p class="count">{{ results|length}} currencies found</p>
+
+            {% if results %}
+            <table>
+                <tr>
+                    <th>Currency</th>
+                    <th>Rate</th>
+                </tr>
+                {% for code, rate in results %}
+                <tr>
+                    <td>{{ code }}</td>
+                    <td>{{ rate }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No currencies matches "{{search}}". Try a code like USD or UGX. </p>
+
+            {% endif %}
+
+            {% endif %}
+            <footer>
+                Rates provided by <a href="https://www.exchangerate-api.com">ExchangeRate-API</a>. Updated every 10 minutes
+            </footer>
+        </main>
+    </body>
 </html>
