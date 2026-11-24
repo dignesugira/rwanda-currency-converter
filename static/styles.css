@@ -44,9 +44,16 @@ form{
     gap:8px;
     margin-bottom: 16px;
 }
- input{
+ input, select, button{
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: white;
+}
+input{
     flex: 1 1 180px;
- }
+}
  button{
     background: var(--blue);
     color: white;
@@ -62,6 +69,11 @@ form{
  .count{
     color: var(--muted);
     font-size: 0.9rem;
+ }
+ th, td{
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line)
  }
  table{
     width: 100%;
